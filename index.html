@@ -2,33 +2,33 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Gloriam Store</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#000000">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="loader" id="loader">GLORIAM</div>
-    <div id="toast" class="toast">PESAN KESALAHAN</div>
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div id="toast"></div>
 
     <div class="page active" id="home">
-        <header>
+        <div class="header">
             <h1>GLORIAM</h1>
-            <p>MAKE STAND WITH PRIDE</p>
-        </header>
-        <div class="products" id="product-list">
-            </div>
+            <p>E-Commerce Solution</p>
+        </div>
+        <div id="product-list" class="grid-container"></div>
     </div>
 
     <div class="page" id="detail">
         <div class="back-btn" onclick="showPage('home')">← BACK</div>
         <div class="detail-container">
             <div class="img-grid" id="detImgs"></div>
-            <h2 id="detName" style="margin-top:25px; font-size:24px;">Product</h2>
-            <p id="detPrice" style="color:#00c853; font-weight:700; font-size:18px;"></p>
+            <h2 id="detName" style="margin-top:25px; font-size:24px;"></h2>
+            <p id="detPrice" style="color:#00c853; font-weight:700; font-size:18px; margin:10px 0;"></p>
+            
             <div id="colorArea"></div>
             <div id="sizeArea"></div>
         </div>
@@ -37,41 +37,37 @@
 
     <div class="page" id="form">
         <div class="back-btn" onclick="showPage('detail')">← BACK</div>
-        <div class="detail-container form-section">
-            <h2 style="margin-bottom:30px;">SHIPPING INFO</h2>
-            <div class="input-group">
-                <label>FULL NAME</label>
-                <input type="text" id="inName" placeholder="Masukkan nama lengkap">
+        <div class="detail-container">
+            <h2 style="margin-bottom:20px;">DATA PENGIRIMAN</h2>
+            <div class="form-group">
+                <label>Nama Penerima</label>
+                <input type="text" id="inName" placeholder="Nama Lengkap">
             </div>
-            <div class="input-group">
-                <label>WHATSAPP NUMBER</label>
-                <input type="number" id="inPhone" placeholder="08xxx">
+            <div class="form-group">
+                <label>Nomor WhatsApp</label>
+                <input type="number" id="inPhone" placeholder="08xxxx">
             </div>
-            <div class="input-group">
-                <label>FULL ADDRESS</label>
-                <textarea id="inAddress" rows="4" placeholder="Alamat lengkap pengiriman..."></textarea>
+            <div class="form-group">
+                <label>Alamat Lengkap</label>
+                <textarea id="inAddress" rows="4" placeholder="Jl. Nama Jalan, No, Kec, Kota"></textarea>
             </div>
         </div>
-        <div class="sticky-btn"><button onclick="validateForm()">CONTINUE</button></div>
+        <div class="sticky-btn"><button onclick="validateForm()">REVIEW ORDER</button></div>
     </div>
 
     <div class="page" id="summary">
         <div class="back-btn" onclick="showPage('form')">← BACK</div>
-        <div class="detail-container summary-container"> 
-            <h2 style="margin-bottom:20px;">ORDER SUMMARY</h2>
+        <div class="detail-container">
+            <h2 style="margin-bottom:20px;">RINGKASAN PESANAN</h2>
             <div class="summary-box">
-                <h3 id="sumProd" style="margin:0; font-size:18px;">-</h3>
-                <p id="sumVar" style="font-size:13px; color:#888; margin:8px 0;">-</p>
-                <h3 id="sumPrice" style="color:#00c853; margin:15px 0 0;">-</h3>
-                <hr style="border:0; border-top:1px solid #1a1a1a; margin:20px 0;">
-                <p id="sumCust" style="font-size:13px; line-height:1.8; margin:0;"></p>
-            </div>
-            <div class="payment-card">
-                <span style="font-size:11px; font-weight:700; color:#555;">REKENING PEMBAYARAN</span>
-                <div class="bank-info">MANDIRI: 1370023790229<br>DANA: 081910421976<br><span style="font-size:14px; opacity:0.6;">A.N Dias Adhitya Purnama Putra</span></div>
+                <h3 id="sumProd" style="margin:0;"></h3>
+                <p id="sumVar" style="font-size:13px; color:#888; margin:5px 0 15px;"></p>
+                <h3 id="sumPrice" style="color:#00c853; margin:0;"></h3>
+                <hr style="border:0; border-top:1px solid #eee; margin:20px 0;">
+                <p id="sumCust" style="font-size:13px; line-height:1.6;"></p>
             </div>
         </div>
-        <div class="sticky-btn"><button onclick="sendWA()" style="background:#00c853; color:#fff;">CHECKOUT (WA)</button></div>
+        <div class="sticky-btn"><button onclick="sendWA()" style="background:#25d366;">ORDER VIA WHATSAPP</button></div>
     </div>
 
     <script src="script.js"></script>
