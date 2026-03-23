@@ -1,205 +1,79 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GLORIAM</title><style>
-body{margin:0;font-family:Arial;background:#000;color:#fff}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gloriam Store</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#000000">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-.hero{
- height:100vh;
- background:url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b') center/cover no-repeat;
- display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center
-}
+    <div class="loader" id="loader">GLORIAM</div>
+    <div id="toast" class="toast">PESAN KESALAHAN</div>
 
-.hero h1{font-size:48px;letter-spacing:8px}
-.tag{opacity:.7;letter-spacing:2px}
+    <div class="page active" id="home">
+        <header>
+            <h1>GLORIAM</h1>
+            <p>MAKE STAND WITH PRIDE</p>
+        </header>
+        <div class="products" id="product-list">
+            </div>
+    </div>
 
-.btn{margin-top:25px;padding:14px 40px;background:#fff;color:#000;border:none;font-weight:bold;cursor:pointer;border-radius:30px}
+    <div class="page" id="detail">
+        <div class="back-btn" onclick="showPage('home')">← BACK</div>
+        <div class="detail-container">
+            <div class="img-grid" id="detImgs"></div>
+            <h2 id="detName" style="margin-top:25px; font-size:24px;">Product</h2>
+            <p id="detPrice" style="color:#00c853; font-weight:700; font-size:18px;"></p>
+            <div id="colorArea"></div>
+            <div id="sizeArea"></div>
+        </div>
+        <div class="sticky-btn"><button onclick="validateDetail()">NEXT</button></div>
+    </div>
 
-.section{padding:70px 20px;text-align:center;border-top:1px solid rgba(255,255,255,0.06)}
+    <div class="page" id="form">
+        <div class="back-btn" onclick="showPage('detail')">← BACK</div>
+        <div class="detail-container form-section">
+            <h2 style="margin-bottom:30px;">SHIPPING INFO</h2>
+            <div class="input-group">
+                <label>FULL NAME</label>
+                <input type="text" id="inName" placeholder="Masukkan nama lengkap">
+            </div>
+            <div class="input-group">
+                <label>WHATSAPP NUMBER</label>
+                <input type="number" id="inPhone" placeholder="08xxx">
+            </div>
+            <div class="input-group">
+                <label>FULL ADDRESS</label>
+                <textarea id="inAddress" rows="4" placeholder="Alamat lengkap pengiriman..."></textarea>
+            </div>
+        </div>
+        <div class="sticky-btn"><button onclick="validateForm()">CONTINUE</button></div>
+    </div>
 
-.form{max-width:420px;margin:auto;text-align:left}
+    <div class="page" id="summary">
+        <div class="back-btn" onclick="showPage('form')">← BACK</div>
+        <div class="detail-container summary-container"> 
+            <h2 style="margin-bottom:20px;">ORDER SUMMARY</h2>
+            <div class="summary-box">
+                <h3 id="sumProd" style="margin:0; font-size:18px;">-</h3>
+                <p id="sumVar" style="font-size:13px; color:#888; margin:8px 0;">-</p>
+                <h3 id="sumPrice" style="color:#00c853; margin:15px 0 0;">-</h3>
+                <hr style="border:0; border-top:1px solid #1a1a1a; margin:20px 0;">
+                <p id="sumCust" style="font-size:13px; line-height:1.8; margin:0;"></p>
+            </div>
+            <div class="payment-card">
+                <span style="font-size:11px; font-weight:700; color:#555;">REKENING PEMBAYARAN</span>
+                <div class="bank-info">MANDIRI: 1370023790229<br>DANA: 081910421976<br><span style="font-size:14px; opacity:0.6;">A.N Dias Adhitya Purnama Putra</span></div>
+            </div>
+        </div>
+        <div class="sticky-btn"><button onclick="sendWA()" style="background:#00c853; color:#fff;">CHECKOUT (WA)</button></div>
+    </div>
 
-.form label{font-size:12px;font-weight:bold;letter-spacing:2px;opacity:.8;margin-top:20px;display:block;border-top:1px solid rgba(255,255,255,0.05);padding-top:15px}
-
-.form input{
- width:100%;padding:14px;margin:12px 0 25px;border:none;border-bottom:1px solid #333;background:transparent;color:#fff;font-size:15px
-}
-
-.size-img{width:100%;border-radius:12px;margin:24px 0 24px}
-
-.size-group, .warna-group{display:flex;gap:16px;margin:18px 0 34px}
-
-.size-btn, .warna-btn{
- flex:1;padding:14px;border:1px solid #333;text-align:center;cursor:pointer;border-radius:12px;transition:.2s
-}
-
-.size-btn.active, .warna-btn.active{
- background:#fff;color:#000;border-color:#fff
-}
-.warna-btn.green{border-color:#1f8f4a;color:#1f8f4a}
-.warna-btn.green.active{background:#1f8f4a;color:#fff;border-color:#1f8f4a}
-
-.payment{
- background:linear-gradient(145deg,#0a0a0a,#111);
- padding:22px;
- border-radius:18px;
- margin-top:25px;
- font-size:14px;
- line-height:1.8;
- border:1px solid rgba(255,255,255,0.08);
- box-shadow:0 15px 40px rgba(0,0,0,0.7);
- font-weight:500
-}
-.payment b{font-size:16px;letter-spacing:1px;font-weight:bold}
-
-.info-box{
- background:linear-gradient(145deg,#0a0a0a,#111);
- padding:22px;
- border-radius:18px;
- margin-bottom:30px;
- font-size:14px;
- line-height:1.8;
- border:1px solid rgba(255,255,255,0.08);
- box-shadow:0 10px 30px rgba(0,0,0,0.6);
-}
-.info-box b{font-size:16px;letter-spacing:1px}
-
-
-.badge{
- display:inline-block;
- padding:6px 12px;
- border:1px solid #fff;
- border-radius:20px;
- font-size:10px;
- letter-spacing:2px;
- margin-bottom:20px
-}
-
-.submit{
- width:100%;margin-top:30px;padding:15px;background:#fff;color:#000;border:none;border-radius:30px;font-weight:bold;font-size:14px
-}
-
-.warning{
- margin-top:25px;
- font-size:13px;
- text-align:center;
- font-weight:bold;
- color:#fff;
- letter-spacing:.5px;
- line-height:1.6;
-}
-
-
-.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
-.gallery img{width:100%;border-radius:12px}
-
-
-/* ANIMATION */
-.fade-in{
- opacity:0;
- transform:translateY(20px);
- transition:all 0.8s ease;
-}
-.fade-in.show{
- opacity:1;
- transform:translateY(0);
-}
-
-</style></head><body><div class="hero">
-<h1>GLORIAM</h1>
-<p class="tag">SOCCER ADDICT COLLECTION</p>
-<button class="btn" onclick="scrollToOrder()">ORDER NOW</button>
-</div><div class="section fade-in" id="order">
-<div class="form"><div style="text-align:center;margin-bottom:30px">
-<div class="badge">FORMAT ORDER</div>
-<h2 style="margin:10px 0 5px;font-size:22px;letter-spacing:2px">SOCCER ADDICT</h2>
-<div style="font-weight:bold;line-height:1.4;font-size:14px">
-Harga: Rp 110.000<br>
-DP Minimal: Rp 60.000<br>
-Batas Pemesanan: 6 April 2026
-</div>
-</div><label>NAMA LENGKAP</label> <input id="nama" placeholder="Masukkan nama lengkap">
-
-<label>WARNA</label>
-
-<div class="warna-group">
-<div class="warna-btn" onclick="selectWarna(this,'Hitam')">Hitam</div>
-<div class="warna-btn green" onclick="selectWarna(this,'Hijau')">Hijau</div>
-</div><label>SIZE</label> <img class="size-img" src="https://raw.githubusercontent.com/gloriammakestand/Gloriam/main/size.jpg">
-
-<div class="size-group">
-<div class="size-btn" onclick="selectSize(this,'S')">S</div>
-<div class="size-btn" onclick="selectSize(this,'M')">M</div>
-<div class="size-btn" onclick="selectSize(this,'L')">L</div>
-<div class="size-btn" onclick="selectSize(this,'XL')">XL</div>
-<div class="size-btn" onclick="selectSize(this,'XXL +10k')">XXL</div>
-<div class="size-btn" onclick="selectSize(this,'XXXL +15k')">XXXL</div>
-</div><label>ALAMAT LENGKAP</label> <input id="alamat" placeholder="Masukkan alamat lengkap">
-
-<label>NOMOR WA</label> <input id="hp" placeholder="08xxxx">
-
-<div class="warning">
-KAMI MENGINGATKAN KEMBALI, PASTIKAN SELURUH DATA YANG ANDA ISI SUDAH BENAR SEBELUM MENGIRIM FORMULIR.
-</div><div class="payment">
-<b>PEMBAYARAN</b><br><br>
-DANA: 081910421976<br>
-A.N Dias Adhitya Purnama Putra<br><br>
-Mandiri: 1370023790229<br>
-A.N Dias Adhitya Purnama<br><br>
-⚠️ Kirim bukti transfer setelah order
-</div><button class="submit" onclick="submitOrder()">KIRIM ORDER</button>
-
-</div>
-</div><div class="section fade-in">
-<h2>OUR WORK</h2>
-<div class="gallery">
-<img src="https://images.unsplash.com/photo-1520975916090-3105956dac38">
-<img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1">
-<img src="https://images.unsplash.com/photo-1520975922203-bc5c3b52d5a6">
-<img src="https://images.unsplash.com/photo-1516826957135-700dedea698c">
-</div>
-</div><script>
-let selectedSize="";
-let selectedWarna="";
-
-function scrollToOrder(){
- document.getElementById('order').scrollIntoView({behavior:'smooth'});
-}
-
-function selectSize(el,val){
- document.querySelectorAll('.size-btn').forEach(e=>e.classList.remove('active'));
- el.classList.add('active');
- selectedSize=val;
-}
-
-function selectWarna(el,val){
- document.querySelectorAll('.warna-btn').forEach(e=>e.classList.remove('active'));
- el.classList.add('active');
- selectedWarna=val;
-}
-
-function submitOrder(){
- const nama=document.getElementById('nama').value;
- const hp=document.getElementById('hp').value;
- const alamat=document.getElementById('alamat').value;
-
- const text=`GLORIAM ORDER\n\nNama: ${nama}\nWarna: ${selectedWarna}\nSize: ${selectedSize}\nNo WA: ${hp}\nAlamat: ${alamat}\n\nSaya sudah transfer & kirim bukti`;
-
- window.open("https://wa.me/6283898588562?text="+encodeURIComponent(text));
-}
-
-
-// SCROLL ANIMATION
-const observer = new IntersectionObserver(entries => {
- entries.forEach(entry => {
-  if(entry.isIntersecting){
-    entry.target.classList.add('show');
-  }
- });
-});
-
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-</script></body>
+    <script src="script.js"></script>
+</body>
 </html>
