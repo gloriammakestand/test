@@ -1,4 +1,4 @@
-const SHEET_CSV_URL = 'URL_CSV_KAMU'; // MASUKKAN LINK CSV DI SINI
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR5wyzEXxKbCeS8SQWZQ7oz5lmPwszeLtW-TuQ5uzCV6GWcXP5IqOzjTqhIRg5yyLuRd86yLtXGMnoL/pub?output=csv'; // MASUKKAN LINK CSV DI SINI
 
 let products = [];
 let cart = { prod: null, size: '', color: '' };
