@@ -47,22 +47,33 @@ function showAbout() {
 function renderProducts(type = 'home') {
     const container = document.getElementById('product-list');
     const header = document.querySelector('#home header');
+    const menuBtn = document.querySelector('.menu-btn');
     
     container.innerHTML = '';
-    showPage('home'); // Selalu tampil di halaman home
-    
-    if(document.getElementById('side-menu').classList.contains('active')) toggleMenu();
+    showPage('home'); 
 
-    // LOGIKA TAMPILAN HEADER & JUDUL KATALOG
+    // Tutup menu otomatis
+    if(document.getElementById('side-menu').classList.contains('active')) {
+        document.getElementById('side-menu').classList.remove('active');
+    }
+
+    // Selalu tampilkan hamburger
+    menuBtn.style.display = 'flex';
+
     if (type === 'home') {
-        header.style.display = 'block'; // Munculkan logo Gloriam besar
+        header.style.display = 'block'; 
+        // Hilangkan padding tambahan di container jika di home
+        container.style.paddingTop = "0";
     } else {
-        header.style.display = 'none';  // Sembunyikan logo besar
-        // Tambahkan tombol BACK manual dan Judul Kategori
+        header.style.display = 'none'; 
+        
+        // RAPIKAN LAYOUT: Gunakan wrapper yang sudah kita beri padding-left tadi
         container.innerHTML = `
-            <div style="width:100%; max-width:450px; margin-bottom:25px; text-align:left;">
-                <span onclick="renderProducts('home')" style="cursor:pointer; opacity:0.5; font-size:12px; font-weight:700;">← KEMBALI KE BERANDA</span>
-                <h2 style="margin-top:10px; letter-spacing:4px; font-size:18px; color:#fff;">${type.toUpperCase()}</h2>
+            <div class="category-nav-wrapper">
+                <div class="btn-back-link" onclick="vibrate(30); renderProducts('home')">
+                   ← KEMBALI KE BERANDA
+                </div>
+                <h2 class="category-main-title">${type}</h2>
             </div>
         `;
     }
@@ -71,7 +82,6 @@ function renderProducts(type = 'home') {
         let isShow = false;
         const statusClean = p.badge.toLowerCase();
 
-        // FILTER: Beranda (index 0,1,2), sisanya berdasarkan Badge
         if (type === 'home' && index < 3) isShow = true; 
         else if (type === 'preorder' && (statusClean === 'pre' || statusClean === 'po')) isShow = true;
         else if (type === 'katalog' && statusClean === 'ready') isShow = true;
@@ -97,6 +107,7 @@ function renderProducts(type = 'home') {
 
     document.getElementById('home').scrollTop = 0;
 }
+
 
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
