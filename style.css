@@ -156,32 +156,53 @@ button { background: #fff; color: #000; border: none; padding: 20px; width: 100%
 }
 
 /* HAMBURGER MENU */
-/* CARI DAN GANTI BAGIAN INI */
-/* Pastikan tombol hamburger tetap di pojok kiri atas dengan rapi */
+/* 1. TOMBOL MENU (PINDAH KE KANAN ATAS) */
 .menu-btn {
     position: fixed; 
-    top: 20px; 
-    left: 20px; 
+    top: 25px; 
+    right: 20px; /* Di kanan agar tidak menutupi judul di kiri */
+    left: auto;
     z-index: 1100; 
     cursor: pointer; 
     display: flex; 
     flex-direction: column; 
     gap: 6px;
-    background: rgba(0,0,0,0.85); 
+    background: rgba(0,0,0,0.8); 
     padding: 12px; 
     border-radius: 10px;
     border: 1px solid #222;
 }
 
-/* KONTENER KHUSUS UNTUK JUDUL KATALOG AGAR TIDAK KOMPETISI DENGAN HAMBURGER */
+.menu-btn span { width: 22px; height: 2px; background: #fff; transition: 0.3s; }
+
+/* 2. SIDE MENU (MUNCUL DARI KANAN) */
+#side-menu {
+    position: fixed; 
+    top: 0; 
+    right: -100%; /* Mulai dari luar layar kanan */
+    left: auto;
+    width: 280px; 
+    height: 100%;
+    background: #050505; 
+    z-index: 10001; 
+    transition: 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+    padding-top: 80px; 
+    border-left: 1px solid #1a1a1a;
+}
+
+#side-menu.active { 
+    right: 0; /* Geser masuk ke kanan */
+}
+
+/* 3. LAYOUT JUDUL & BACK (DI KIRI ATAS - BERSIH) */
 .category-nav-wrapper {
     width: 100%;
     max-width: 450px;
-    padding: 20px 0 30px 65px; /* KUNCI: Padding left 65px agar teks bergeser ke kanan hamburger */
+    padding: 20px 0 30px 0; /* Padding normal karena menu sudah pindah ke kanan */
     text-align: left;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
 }
 
 .btn-back-link {
@@ -192,39 +213,52 @@ button { background: #fff; color: #000; border: none; padding: 20px; width: 100%
     opacity: 0.5;
     text-transform: uppercase;
     transition: 0.3s;
+    display: inline-block;
 }
 
 .btn-back-link:hover { opacity: 1; }
 
 .category-main-title {
     margin: 0;
-    font-size: 24px;
+    font-size: 26px;
     letter-spacing: 6px;
     font-weight: 900;
     text-transform: uppercase;
     color: #fff;
 }
 
-
-/* Tambahkan ini di bawahnya untuk memberi ruang judul */
+/* 4. PENYESUAIAN LAINNYA */
 #product-list {
     padding-top: 10px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.menu-btn span { width: 22px; height: 2px; background: #fff; transition: 0.3s; }
-
-#side-menu {
-    position: fixed; top: 0; left: -100%; width: 280px; height: 100%;
-    background: #050505; z-index: 10001; transition: 0.5s cubic-bezier(0.65, 0, 0.35, 1);
-    padding-top: 80px; border-right: 1px solid #1a1a1a;
+.close-btn { 
+    position: absolute; 
+    top: 25px; 
+    right: 25px; 
+    font-size: 24px; 
+    cursor: pointer; 
+    opacity: 0.5; 
 }
-#side-menu.active { left: 0; }
+
+/* Back Button untuk halaman Detail, Form, dll tetap di kiri */
+.back-btn { 
+    position: fixed;
+    left: 20px; 
+    top: 25px; 
+    z-index: 150;
+}
+
 .menu-items a {
-    display: block; padding: 20px 30px; color: #fff; text-decoration: none;
-    font-size: 12px; font-weight: 700; letter-spacing: 2px; border-bottom: 1px solid #0a0a0a;
+    display: block; 
+    padding: 20px 30px; 
+    color: #fff; 
+    text-decoration: none;
+    font-size: 12px; 
+    font-weight: 700; 
+    letter-spacing: 2px; 
+    border-bottom: 1px solid #0a0a0a;
 }
-.menu-items a:active { background: #111; }
-.close-btn { position: absolute; top: 25px; right: 25px; font-size: 24px; cursor: pointer; opacity: 0.5; }
-
-/* Menyesuaikan Back Button agar tidak tabrakan dengan menu */
-.back-btn { left: 20px; top: 25px; }
