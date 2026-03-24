@@ -86,10 +86,19 @@ function toggleSidebar() {
 function navTo(pageId) { toggleSidebar(); showPage(pageId); }
 
 function showPage(id) {
+    // Sembunyikan atau munculkan tombol hamburger berdasarkan halaman
+    const menuBtn = document.querySelector('.menu-btn');
+    if (id === 'detail' || id === 'form' || id === 'summary') {
+        menuBtn.style.display = 'none'; // Hilangkan di halaman detail/order
+    } else {
+        menuBtn.style.display = 'flex'; // Munculkan kembali di home/katalog/arsip
+    }
+
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     document.getElementById(id).scrollTop = 0;
 }
+
 
 function goDetail(id) {
     const p = products.find(x => x.id === id);
