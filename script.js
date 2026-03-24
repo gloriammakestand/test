@@ -29,10 +29,38 @@ async function fetchProducts() {
     } catch (err) { console.error(err); }
 }
 
-function renderHome() {
+function renderHome(filter = 'home') {
     const container = document.getElementById('product-list');
     container.innerHTML = '';
-    products.forEach(p => {
+
+    let filtered = [];
+
+    if (filter === 'home') {
+        filtered = products.slice(0, 3);
+    } 
+    else if (filter === 'preorder') {
+        filtered = products.filter(p => p.badge === 'pre');
+    } 
+    else if (filter === 'ready') {
+        filtered = products.filter(p => p.badge === 'ready');
+    } 
+    else if (filter === 'sold') {
+        filtered = products.filter(p => p.badge === 'sold');
+    } 
+    else if (filter === 'about') {
+        container.innerHTML = `
+            <div style="text-align:center; padding:100px 20px;">
+                <h2>GLORIAM</h2>
+                <p style="opacity:0.6; font-size:13px; line-height:1.8;">
+                Gloriam adalah brand yang menggabungkan culture sepak bola dengan streetwear.
+                Dibuat untuk mereka yang hidup dengan passion, bukan sekadar gaya.
+                </p>
+            </div>
+        `;
+        return;
+    }
+
+    filtered.forEach(p => {
         const isSold = p.badge === 'sold';
         container.innerHTML += `
             <div class="card ${isSold ? 'sold-out' : ''}">
@@ -40,8 +68,13 @@ function renderHome() {
                 <img src="${p.imgs[0]}">
                 <div style="padding:25px">
                     <h3>${p.name}</h3>
-                    <p style="opacity:0.5; font-weight:600;">${isSold ? 'OUT OF STOCK' : 'Rp' + p.price}</p>
-                    <button onclick="vibrate(40); goDetail(${p.id})" ${isSold ? 'disabled' : ''}>${isSold ? 'HABIS' : 'SELECT'}</button>
+                    <p style="opacity:0.5; font-weight:600;">
+                        ${isSold ? 'OUT OF STOCK' : 'Rp' + p.price}
+                    </p>
+                    <button onclick="vibrate(40); goDetail(${p.id})" 
+                        ${isSold ? 'disabled' : ''}>
+                        ${isSold ? 'SOLD' : 'SELECT'}
+                    </button>
                 </div>
             </div>
         `;
@@ -125,4 +158,15 @@ function openSpecs() {
 // Fungsi untuk menutup modal spesifikasi
 function closeSpecs() { 
     document.getElementById('specsModal').style.display = 'none'; 
+}
+
+function toggleMenu() {
+    document.getElementById('sidebar').classList.toggle('active');
+}
+
+function filterMenu(type) {
+    vibrate(30);
+    toggleMenu();
+    renderHome(type);
+    showPage('home');
 }
