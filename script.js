@@ -141,7 +141,7 @@ function triggerAlert(msg) {
     
     // Hapus efek goyang setelah 0.4 detik
     setTimeout(() => toast.classList.remove('shake'), 400);
-    // Sembunyikan toast setelah 2.5 detik
+    // Mengubah durasi toast
     setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
