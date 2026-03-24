@@ -52,12 +52,11 @@ function renderProducts(type = 'home') {
     container.innerHTML = '';
     showPage('home'); 
 
-    // Tutup menu otomatis
     if(document.getElementById('side-menu').classList.contains('active')) {
         document.getElementById('side-menu').classList.remove('active');
     }
 
-    // Menu Hamburger selalu ada di Kanan Atas
+    // Hamburger selalu tampil di Kanan Atas
     menuBtn.style.display = 'flex';
 
     if (type === 'home') {
@@ -65,16 +64,13 @@ function renderProducts(type = 'home') {
     } else {
         header.style.display = 'none'; 
         
-        // Layout: Tombol Kembali & Judul di KIRI (Aman karena menu di KANAN)
+        // --- BAGIAN YANG DIGANTI ---
         container.innerHTML = `
-            <div class="category-header-box">
-                <div onclick="vibrate(30); renderProducts('home')" 
-                     style="cursor:pointer; display:inline-block; margin-bottom:15px; font-weight:700; font-size:11px; opacity:0.5; letter-spacing:1px;">
-                   ← KEMBALI KE BERANDA
+            <div class="category-nav-wrapper">
+                <div class="btn-back-home" onclick="vibrate(30); renderProducts('home')">
+                   ← HOME
                 </div>
-                <h2 style="letter-spacing:6px; font-size:26px; font-weight:900; text-transform:uppercase; color:#fff; margin:0;">
-                    ${type}
-                </h2>
+                <h2 class="category-main-title">${type}</h2>
             </div>
         `;
     }
@@ -108,8 +104,6 @@ function renderProducts(type = 'home') {
 
     document.getElementById('home').scrollTop = 0;
 }
-
-
 
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
