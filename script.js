@@ -23,23 +23,32 @@ async function fetchProducts() {
         products = rows.map(row => {
             const col = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/).map(c => c.trim().replace(/^"|"$/g, ""));
             return {
-                id: parseInt(col[0]), name: col[1], price: col[2],
-                badge: col[3].toLowerCase(), status: col[4],
-                colors: col[5].split('/').map(c => c.trim()),
-                stock: col[6].split('/').map(s => s.trim()),
-                imgs: [col[7], col[8], col[9]].filter(i => i !== ""),
-                specs: col[10]
+                id: parseInt(col[0]), 
+                name: col[1], 
+                price: col[2],
+                badge: col[3] ? col[3].toLowerCase() : "", 
+                status: col[4],
+                colors: col[5] ? col[5].split('/').map(c => c.trim()) : [],
+                stock: col[6] ? col[6].split('/').map(s => s.trim()) : [],
+                imgs: [col[7], col[8], col[9]].filter(i => i && i !== ""),
+                specs: col[10],
+                // MEMBACA KOLOM L (INDEX 11)
+                showcase: col[11] ? col[11].toLowerCase().trim() : "" 
             };
         });
         renderAllSections(); 
-    } catch (err) { console.error(err); }
+    } catch (err) { console.error("Gagal ambil data:", err); }
 }
 
-function renderAllSections() { // Merubah untuk id yang ditampilkan 
-    renderList(products.filter(p => [1, 2, 3].includes(p.id)), 'list-home');
+function renderAllSections() { 
+    // Beranda: Hanya produk yang kolom Showcase-nya diisi 'yes'
+    renderList(products.filter(p => p.showcase === 'yes'), 'list-home');
+    
+    // Halaman lain tetap berdasarkan Badge
     renderList(products.filter(p => p.badge === 'pre'), 'list-preorder');
     renderList(products.filter(p => p.badge === 'ready'), 'list-katalog');
     renderList(products.filter(p => p.badge === 'sold'), 'list-arsip');
+    
     injectFooters();
 }
 
