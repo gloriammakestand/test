@@ -154,3 +154,97 @@ button { background: #fff; color: #000; border: none; padding: 20px; width: 100%
     text-align: left;
     box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
+
+/* --- CSS UNTUK SIDEBAR & MENU --- */
+
+/* Tombol 3 Garis di Kiri Atas */
+.menu-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 5000; /* Angka paling tinggi agar tidak tertutup gambar */
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #1a1a1a;
+}
+
+.bar {
+    width: 25px;
+    height: 2px;
+    background: #fff;
+    transition: 0.3s;
+}
+
+/* Sidebar (Menu Geser) */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -280px; /* Sembunyi di kiri luar layar */
+    width: 280px;
+    height: 100%;
+    background: #0a0a0a;
+    z-index: 6000;
+    transition: 0.5s cubic-bezier(0.85, 0, 0.15, 1);
+    border-right: 1px solid #1a1a1a;
+    padding: 100px 30px;
+}
+
+/* Munculkan sidebar saat ada class 'open' */
+.sidebar.open {
+    left: 0;
+}
+
+.sidebar-header {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #444;
+    margin-bottom: 40px;
+    text-transform: uppercase;
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links li {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 30px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.nav-links li:hover {
+    color: #00c853; /* Warna hijau saat disentuh */
+    padding-left: 10px;
+}
+
+/* Overlay (Efek gelap di luar menu) */
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+    display: none;
+    z-index: 5500;
+}
+
+.sidebar-overlay.show {
+    display: block;
+}
+
+/* Tambahan: Agar barang yang sold out di ARSIP tetap kelihatan tapi pudar */
+.sold-out-display {
+    opacity: 0.7;
+    filter: grayscale(0.5);
+}
