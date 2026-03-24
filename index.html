@@ -51,6 +51,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="menu-btn" onclick="toggleSidebar()">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
+
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<nav class="sidebar" id="sidebar">
+    <div class="sidebar-header">GLORIAM MENU</div>
+    <ul class="nav-links">
+        <li onclick="navTo('home')">BERANDA</li>
+        <li onclick="navTo('preorder')">PRE ORDER</li>
+        <li onclick="navTo('katalog')">KATALOG</li>
+        <li onclick="navTo('arsip')">ARSIP</li>
+        <li onclick="navTo('tentang')">TENTANG KAMI</li>
+    </ul>
+</nav>
 
     <div class="loader" id="loader">
     <img src="https://69c19e4422589ee00d527177.imgix.net/loading/Tak%20berjudul37_20260320012236_20260324203721.png?w=800&h=800&fit=crop&q=95" alt="Logo Gloriam">
@@ -59,30 +77,18 @@
     <div id="toast" class="toast">LENGKAPI DATA!</div>
 
     <div class="page active" id="home">
-                <header>
-            <h1>GLORIAM</h1>
-            <p class="slogan">MAKE STAND WITH PRIDE</p>
-            <p class="description">
-                Soccer culture, street attitude. Gloriam is built for those who carry football into everyday life. Make a stand with pride.
-            </p>
-        </header>
-        <div class="products" id="product-list"></div>
-        <footer>
-            <div class="footer-logo">GLORIAM</div>
-            <div class="footer-slogan">MAKE STAND WITH PRIDE</div>
-            <div class="footer-socials">
-                <a href="https://www.instagram.com/gloriam____?igsh=d2Z5dTFiMHdxMHgy" target="_blank" onclick="vibrate(30)"><i class="fab fa-instagram"></i></a>
-                <a href="https://wa.me/6283898588562" target="_blank" onclick="vibrate(30)"><i class="fab fa-whatsapp"></i></a>
-                <a href="https://shopee.co.id/gloriam__" target="_blank" onclick="vibrate(30)"><i class="fas fa-shopping-bag"></i></a>
-            </div>
-            <div class="footer-contact-title">KONTAK KAMI :</div>
-            <div class="footer-contact-info">
-                WhatsApp : <a href="https://wa.me/6283898588562">083898588562</a><br>
-                Email : <a href="mailto:gloriammakestand@gmail.com">gloriammakestand@gmail.com</a>
-            </div>
-            <p class="copyright">© 2026 Gloriam Store. All rights reserved.</p>
-        </footer>
-    </div>
+    <header>
+        <h1>GLORIAM</h1>
+        <p class="slogan">MAKE STAND WITH PRIDE</p>
+        <p class="description">
+            Soccer culture, street attitude. Gloriam is built for those who carry football into everyday life. Make a stand with pride.
+        </p>
+    </header>
+    
+    <div class="products" id="list-home"></div> 
+    
+    <div id="footer-home"></div>
+</div>
 
     <div class="page" id="detail">
         <div class="back-btn" onclick="vibrate(30); showPage('home')">← BACK</div>
@@ -160,6 +166,39 @@
         <p id="specContent" style="font-size:13px; line-height:1.8; color:#bbb; margin:0;"></p>
         <button onclick="closeSpecs()" style="margin-top:25px; padding:15px; font-size:12px; background:#111; color:#fff; border:1px solid #222;">CLOSE</button>
     </div>
+</div>
+
+<div class="page" id="preorder">
+    <div class="back-btn" onclick="showPage('home')">← BACK</div>
+    <header><h2>PRE ORDER</h2></header>
+    <div class="products" id="list-preorder"></div>
+    <div id="footer-pre"></div>
+</div>
+
+<div class="page" id="katalog">
+    <div class="back-btn" onclick="showPage('home')">← BACK</div>
+    <header><h2>KATALOG</h2></header>
+    <div class="products" id="list-katalog"></div>
+    <div id="footer-kat"></div>
+</div>
+
+<div class="page" id="arsip">
+    <div class="back-btn" onclick="showPage('home')">← BACK</div>
+    <header><h2>ARSIP</h2></header>
+    <div class="products" id="list-arsip"></div>
+    <div id="footer-ars"></div>
+</div>
+
+<div class="page" id="tentang">
+    <div class="back-btn" onclick="showPage('home')">← BACK</div>
+    <div class="detail-container" style="padding-top:100px; text-align:center;">
+        <h2>TENTANG KAMI</h2>
+        <p style="opacity:0.6; line-height:2; font-size:13px;">
+            Gloriam adalah representasi kultur sepak bola dalam gaya hidup sehari-hari.<br>
+            Soccer culture, street attitude.
+        </p>
+    </div>
+    <div id="footer-about"></div>
 </div>
 
 <script src="script.js"></script>
