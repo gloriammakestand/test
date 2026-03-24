@@ -105,13 +105,17 @@ function renderProducts(type = 'home') {
     document.getElementById('home').scrollTop = 0;
 }
 
+// Ganti fungsi showPage kamu dengan ini
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    document.getElementById(id).scrollTop = 0;
+    const targetPage = document.getElementById(id);
+    if (targetPage) {
+        targetPage.classList.add('active');
+        targetPage.scrollTop = 0;
+    }
 
-    // Sembunyikan Hamburger di halaman Detail/Form/About
     const menuBtn = document.querySelector('.menu-btn');
+    // Hamburger HANYA muncul di halaman 'home' (termasuk saat render Katalog/Arsip)
     if (id === 'home') {
         menuBtn.style.display = 'flex';
     } else {
