@@ -156,11 +156,27 @@ button { background: #fff; color: #000; border: none; padding: 20px; width: 100%
 }
 
 /* HAMBURGER MENU */
+/* CARI DAN GANTI BAGIAN INI */
 .menu-btn {
-    position: fixed; top: 25px; left: 20px; z-index: 9999;
-    cursor: pointer; display: flex; flex-direction: column; gap: 6px;
-    background: rgba(0,0,0,0.5); padding: 12px; border-radius: 10px;
+    position: fixed; 
+    top: 25px; 
+    left: 20px; 
+    z-index: 1100; /* Pastikan di atas segalanya */
+    cursor: pointer; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 6px;
+    background: rgba(0,0,0,0.7); /* Background gelap transparan agar kontras */
+    padding: 10px; 
+    border-radius: 8px;
+    transition: opacity 0.3s ease; /* Biar halus saat hilang/muncul */
 }
+
+/* Tambahkan ini di bawahnya untuk memberi ruang judul */
+#product-list {
+    padding-top: 10px; 
+}
+
 .menu-btn span { width: 22px; height: 2px; background: #fff; transition: 0.3s; }
 
 #side-menu {
