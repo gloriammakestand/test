@@ -25,103 +25,33 @@ async function fetchProducts() {
                 specs: col[10] // <--- Tambahkan koma di baris atasnya, lalu tambah baris ini
             };
         });
-                // Ganti baris RenderHome(); yang lama menjadi ini:
-        renderProducts('home');
+        renderHome();
     } catch (err) { console.error(err); }
 }
 
-// GANTI DENGAN INI (DI SCRIPT.JS)
-
-function toggleMenu() {
-    vibrate(20);
-    const menu = document.getElementById('side-menu');
-    if (menu) menu.classList.toggle('active');
-}
-
-function showAbout() {
-    vibrate(30);
-    showPage('about');
-    if(document.getElementById('side-menu').classList.contains('active')) toggleMenu();
-}
-
-function renderProducts(type = 'home') {
+function renderHome() {
     const container = document.getElementById('product-list');
-    const header = document.querySelector('#home header');
-    const menuBtn = document.querySelector('.menu-btn');
-    
     container.innerHTML = '';
-    showPage('home'); 
-
-    if(document.getElementById('side-menu').classList.contains('active')) {
-        document.getElementById('side-menu').classList.remove('active');
-    }
-
-    // Hamburger selalu tampil di Kanan Atas
-    menuBtn.style.display = 'flex';
-
-    if (type === 'home') {
-        header.style.display = 'block'; 
-    } else {
-        header.style.display = 'none'; 
-        
-        // --- BAGIAN YANG DIGANTI ---
-        container.innerHTML = `
-            <div class="category-nav-wrapper">
-                <div class="btn-back-home" onclick="vibrate(30); renderProducts('home')">
-                   ← HOME
+    products.forEach(p => {
+        const isSold = p.badge === 'sold';
+        container.innerHTML += `
+            <div class="card ${isSold ? 'sold-out' : ''}">
+                <div class="badge ${p.badge}">${p.status}</div>
+                <img src="${p.imgs[0]}">
+                <div style="padding:25px">
+                    <h3>${p.name}</h3>
+                    <p style="opacity:0.5; font-weight:600;">${isSold ? 'OUT OF STOCK' : 'Rp' + p.price}</p>
+                    <button onclick="vibrate(40); goDetail(${p.id})" ${isSold ? 'disabled' : ''}>${isSold ? 'HABIS' : 'SELECT'}</button>
                 </div>
-                <h2 class="category-main-title">${type}</h2>
             </div>
         `;
-    }
-
-    products.forEach((p, index) => {
-        let isShow = false;
-        const statusClean = p.badge.toLowerCase();
-
-        if (type === 'home' && index < 3) isShow = true; 
-        else if (type === 'preorder' && (statusClean === 'pre' || statusClean === 'po')) isShow = true;
-        else if (type === 'katalog' && statusClean === 'ready') isShow = true;
-        else if (type === 'arsip' && statusClean === 'sold') isShow = true;
-
-        if (isShow) {
-            const isSold = statusClean === 'sold';
-            container.innerHTML += `
-                <div class="card ${isSold ? 'sold-out' : ''}">
-                    <div class="badge ${p.badge}">${p.status}</div>
-                    <img src="${p.imgs[0]}">
-                    <div style="padding:25px">
-                        <h3>${p.name}</h3>
-                        <p style="opacity:0.5; font-weight:600;">${isSold ? 'OUT OF STOCK' : 'Rp' + p.price}</p>
-                        <button onclick="vibrate(40); goDetail(${p.id})" ${isSold ? 'disabled' : ''}>
-                            ${isSold ? 'SOLD' : 'SELECT'}
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
     });
-
-    document.getElementById('home').scrollTop = 0;
 }
 
-// Ganti fungsi showPage kamu dengan ini
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const targetPage = document.getElementById(id);
-    if (targetPage) {
-        targetPage.classList.add('active');
-        targetPage.scrollTop = 0;
-    }
-
-    const menuBtn = document.querySelector('.menu-btn');
-    // Hamburger HANYA muncul di halaman 'home' (termasuk saat render Katalog/Arsip)
-    if (id === 'home') {
-        menuBtn.style.display = 'flex';
-    } else {
-        menuBtn.style.display = 'none';
-        document.getElementById('side-menu').classList.remove('active');
-    }
+    document.getElementById(id).classList.add('active');
+    document.getElementById(id).scrollTop = 0;
 }
 
 function goDetail(id) {
