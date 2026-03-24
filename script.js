@@ -9,6 +9,7 @@ window.onload = async () => {
     setTimeout(() => document.getElementById('loader').classList.add('hide'), 1000);
 };
 
+// --- 1. FUNGSI AMBIL DATA ---
 async function fetchProducts() {
     try {
         const response = await fetch(SHEET_CSV);
@@ -22,32 +23,90 @@ async function fetchProducts() {
                 colors: col[5].split('/').map(c => c.trim()),
                 stock: col[6].split('/').map(s => s.trim()),
                 imgs: [col[7], col[8], col[9]].filter(i => i !== ""),
-                specs: col[10] // <--- Tambahkan koma di baris atasnya, lalu tambah baris ini
+                specs: col[10]
             };
         });
-        renderHome();
+        
+        renderAllSections(); // Menampilkan semua kategori
     } catch (err) { console.error(err); }
 }
 
-function renderHome() {
-    const container = document.getElementById('product-list');
+// --- 2. LOGIKA SIDEBAR ---
+function toggleSidebar() {
+    vibrate(20);
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('show');
+}
+
+function navTo(pageId) {
+    toggleSidebar(); 
+    showPage(pageId);
+}
+
+// --- 3. LOGIKA TAMPILAN PRODUK & FOOTER ---
+function renderAllSections() {
+    // Beranda: Ambil ID 1, 2, 3
+    const homeItems = products.filter(p => [1, 2, 3].includes(p.id));
+    renderList(homeItems, 'list-home');
+    
+    // Pre Order: Filter badge 'pre'
+    const preItems = products.filter(p => p.badge === 'pre');
+    renderList(preItems, 'list-preorder');
+    
+    // Katalog: Filter badge 'ready'
+    const readyItems = products.filter(p => p.badge === 'ready');
+    renderList(readyItems, 'list-katalog');
+    
+    // Arsip: Filter badge 'sold'
+    const soldItems = products.filter(p => p.badge === 'sold');
+    renderList(soldItems, 'list-arsip');
+
+    injectFooters();
+}
+
+function renderList(items, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
     container.innerHTML = '';
-    products.forEach(p => {
+    items.forEach(p => {
         const isSold = p.badge === 'sold';
         container.innerHTML += `
-            <div class="card ${isSold ? 'sold-out' : ''}">
+            <div class="card ${isSold ? 'sold-out-display' : ''}">
                 <div class="badge ${p.badge}">${p.status}</div>
                 <img src="${p.imgs[0]}">
                 <div style="padding:25px">
                     <h3>${p.name}</h3>
                     <p style="opacity:0.5; font-weight:600;">${isSold ? 'OUT OF STOCK' : 'Rp' + p.price}</p>
-                    <button onclick="vibrate(40); goDetail(${p.id})" ${isSold ? 'disabled' : ''}>${isSold ? 'HABIS' : 'SELECT'}</button>
+                    <button onclick="vibrate(40); goDetail(${p.id})" ${isSold ? 'disabled' : ''}>${isSold ? 'SOLD' : 'SELECT'}</button>
                 </div>
-            </div>
-        `;
+            </div>`;
     });
 }
 
+function injectFooters() {
+    const footerHTML = `
+        <footer>
+            <div class="footer-logo">GLORIAM</div>
+            <div class="footer-slogan">MAKE STAND WITH PRIDE</div>
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/gloriam____" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://wa.me/6283898588562" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://shopee.co.id/gloriam__" target="_blank"><i class="fas fa-shopping-bag"></i></a>
+            </div>
+            <div class="footer-contact-info">
+                WhatsApp: 083898588562<br>
+                Email: gloriammakestand@gmail.com
+            </div>
+            <p class="copyright">© 2026 Gloriam Store. All rights reserved.</p>
+        </footer>`;
+    
+    ['home', 'pre', 'kat', 'ars', 'about'].forEach(id => {
+        const el = document.getElementById(`footer-${id}`);
+        if(el) el.innerHTML = footerHTML;
+    });
+}
+
+// --- 4. NAVIGASI HALAMAN & DETAIL ---
 function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -74,6 +133,7 @@ function goDetail(id) {
     showPage('detail');
 }
 
+// --- 5. LOGIKA FORM & WA ---
 function selOpt(type, val, el) { vibrate(20); cart[type] = val; el.parentElement.querySelectorAll('div').forEach(d => d.classList.remove('active')); el.classList.add('active'); }
 
 function triggerAlert(msg) {
@@ -113,16 +173,13 @@ function sendWA() {
 function openSize() { vibrate(30); document.getElementById('sizeModal').style.display='flex'; }
 function closeSize() { document.getElementById('sizeModal').style.display='none'; }
 
-// Fungsi untuk membuka modal spesifikasi
 function openSpecs() { 
     vibrate(30); 
-    // Ambil data specs dari produk yang sedang aktif di cart
     const text = cart.prod.specs ? cart.prod.specs.replace(/\\n/g, '<br>') : "Spesifikasi belum tersedia.";
     document.getElementById('specContent').innerHTML = text;
     document.getElementById('specsModal').style.display = 'flex'; 
 }
 
-// Fungsi untuk menutup modal spesifikasi
 function closeSpecs() { 
     document.getElementById('specsModal').style.display = 'none'; 
 }
